@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Search Barang</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body text-center">
+        <div class="justify-content-center">
+          <h2><b>Cari Barang</b></h2>
+          <p></p>
+          <br>
+          <form method="GET" action="/gudang/cari-barang" class="form-inline justify-content-center mt-3">
+            <div class="form-group">
+                <select class="form-control" id="sku" name="sku">
+                    <div th:each = "barang: ${listBarang}">
+                        <option th:value="${barang.sku}" th:text="${barang.merk}"></option>
+                    </div>
+                </select>
+                <p></p>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary my-2 my-sm-0">Cari</button>
+            </div>
+          </form>
+            <table class="table" id="tableGudang">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama Gudang</th>
+                        <th>Alamat Gudang</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="gudang, iterationStat : ${gudangList}">
+                        <td th:text="${iterationStat.index + 1}"></td>
+                        <td th:text="${gudang.key.nama}"></td>
+                        <td th:text="${gudang.key.alamatGudang}"></td>
+                        <td th:text="${gudang.value}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

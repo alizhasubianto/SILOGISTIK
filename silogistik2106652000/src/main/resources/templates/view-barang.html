@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+  <title>Detail</title>
+  <!-- <style>
+    .container {
+        max-width: 1600px; /* Ubah nilai max-width sesuai kebutuhan */
+        margin: 0 auto;
+        padding: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+}
+  </style> -->
+    
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col">
+                <h2><b>Detail Barang</b></h2>
+            </div>
+            <div class="col-auto">
+                <a type="button" class="btn btn-md btn-primary" th:href="@{/barang/{sku}/ubah (sku=${barang.sku})}">Ubah Barang</a>
+            </div>
+        </div>
+        <p></p>
+        <div class="row align-items-center pt-2">
+            <div class="col">
+                <p th:text="'Merk           : ' + ' ' + ${barang.merk}"></p>
+                <p th:text="'SKU            : ' + ' ' + ${barang.sku}"></p>
+                <p th:text="'Tipe Barang    : ' + ' ' + ${tipeBarang}"></p>
+                <p th:text="'Total Stok     : ' + ' ' + ${stok}"></p>
+                <p th:text="'Harga          : ' + ' ' + 'Rp' + ${barang.hargaBarang}"></p>
+            </div>
+        </div>
+        <div class="text-align">
+            <h6><b>Daftar gudang:</b></h6>
+        </div>
+        <table class="table" id="tableGudang">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama Gudang</th>
+                    <th>Alamat Gudang</th>
+                    <th>Stok</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gudang, iterationStat : ${listGudang}">
+                    <td th:text="${iterationStat.index + 1}"></td>
+                    <td th:text="${gudang.key.nama}"></td>
+                    <td th:text="${gudang.key.alamatGudang}"></td>
+                    <td th:text="${gudang.value}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center m-3">
+            <a type="button" class="btn btn-primary m-2" href="/barang/">Kembali</a>
+        </div>
+        
+    </div>
+    
+</body>

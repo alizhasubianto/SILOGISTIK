@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+  <title>Detail</title>
+  <!-- <style>
+    .container {
+        max-width: 1600px; /* Ubah nilai max-width sesuai kebutuhan */
+        margin: 0 auto;
+        padding: 50px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+}
+  </style> -->
+    
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col">
+                <h2><b>Restock Gudang</b></h2>
+            </div>
+            <!-- <div class="col-auto">
+                <a type="button" class="btn btn-md btn-primary" href="/">+ Tambah Barang</a>
+            </div> -->
+        </div>
+        <p></p>
+        <div class="row align-items-center pt-2">
+            <div class="col">
+                <p th:text="'Nama Gudang: ' + ' ' + ${gudangDTO.nama}"></p>
+                <p th:text="'Alamat Gudang: ' + ' ' + ${gudangDTO.alamatGudang}"></p>
+            </div>
+        </div>
+        <form th:action="@{/gudang/{id}/restock-barang (id=${gudangDTO.id})}" th:object="${gudangDTO}" method="POST">
+        <div colspan="2" class="d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit" name="addRow">Tambah Barang</button>
+        </div>
+        <input type="hidden" th:field="${gudangDTO.id}" />
+        <input type="hidden" th:field="${gudangDTO.nama}" />
+        <input type="hidden" th:field="${gudangDTO.alamatGudang}" />
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Barang</th>
+                <th>Kuantitas</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gudangBarang, iterationStatus: *{listGudangBarang}">
+                <td th:text="${iterationStatus.index + 1}"></td>
+                <td>
+                    <select class="form-control" th:field="*{listGudangBarang[__${iterationStatus.index}__].Barang.sku}">
+                        <div th:each="barang: ${listBarang}">
+                            <option th:value="${barang.sku}" th:text="${barang.merk}"></option>
+                        </div>
+                    </select>
+                </td>
+                    <td>
+                        <input required class="form-control" type="number" name="jumlah" th:field="*{listGudangBarang[__${iterationStatus.index}__].stok}" th:value="0" />
+
+                        <input type="hidden"
+                                    th:field="*{listGudangBarang[__${iterationStatus.index}__].id}"
+                                    />
+                                    <input type="hidden"
+                                    th:field="*{listGudangBarang[__${iterationStatus.index}__].gudang}"
+                                    />
+                        <!-- <input required class="form-control" type="number" th:field="*{barang.stok}" /> -->
+                    </td>
+                </tr>
+                    <!-- <td>
+                        <button class="btn btn-danger" type="submit" name="deleteRow">Hapus</button> -->
+                        <!-- <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit" name="deleteRow">Hapus</button> -->
+                    <!-- </td> -->
+            </tbody>
+          </table>
+            <div class="text-center m-3">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a type="button" class="btn btn-primary m-2" th:href="@{/gudang/detail/{id}(id=${gudangDTO.id})}">Kembali</a>
+            </div>
+          </form>
+    </div>
+    </body>
+    </html>

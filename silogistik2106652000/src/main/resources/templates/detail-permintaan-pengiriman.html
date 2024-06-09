@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+  <title>Detail</title>
+    
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col">
+                <h2><b>Detail Permintaan Pengiriman</b></h2>
+            </div>
+            <div class="col-auto">
+                <a type="button" class="btn btn-md btn-danger">Cancel Permintaan</a>
+            </div>
+        </div>
+        <p></p>
+        <div class="row align-items-center pt-2">
+            <div class="col">
+                <p th:text="'No. Permintaan Pengiriman: ' + ' ' + ${permintaanPengirimanDTO.nomorPengiriman}"></p>
+                <p th:text="'Waktu Permintaan: ' + ' ' + ${#strings.substring(permintaanPengirimanDTO.waktuPermintaan, 0, 10)}"></p>
+                <p th:text="'Karyawan Bertugas: ' + ' ' + ${permintaanPengirimanDTO.Karyawan.nama}"></p>
+                <p th:text="'Waktu Pengiriman: ' + ' ' + ${#dates.format(permintaanPengirimanDTO.tanggalPengiriman, 'dd-MM-yyy')}"></p>
+                <p th:text="'Nama Penerima: ' + ' ' + ${permintaanPengirimanDTO.namaPenerima}"></p>
+                <p th:text="'Alamat Penerima: ' + ' ' + ${permintaanPengirimanDTO.alamatPenerima}"></p>
+                <p th:text="'Jenis Layanan: ' + ' ' + ${jenisPengiriman}"></p>
+                <p th:text="'Biaya Pengiriman: ' + ' ' + 'Rp' +  ${permintaanPengirimanDTO.biayaPengiriman}"></p>
+            </div>
+        </div>
+        <div class="text-align">
+            <h6><b>Daftar barang yang tersedia:</b></h6>
+        </div>
+        <table class="table" id="tableGudang">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>SKU</th>
+                    <th>Merk</th>
+                    <th>Kuantitas Pesanan</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="barang, iterationStat : ${detailPesananBarangMap}">
+                    <td th:text="${iterationStat.count}"></td>
+                    <td th:text="${barang.key.sku}"></td>
+                    <td th:text="${barang.key.merk}"></td>
+                    <td th:text="${barang.value}"></td>
+                    <td th:text="'Rp' + ${barang.key.hargaBarang * barang.value}"></td>
+                </tr>
+            </tbody>
+        </table> 
+        <div class="text-center m-3">
+            <a type="button" class="btn btn-primary m-2" href="/permintaan-pengiriman/">Kembali</a>
+        </div>
+        
+    </div>
+    
+</body>

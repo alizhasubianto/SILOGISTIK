@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Filter Permintaan Pengiriman</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+  <div class="container">
+        <div class="justify-content-center">
+            <br>
+          <h2><b>Filter Permintaan Pengiriman</b></h2>
+          <form method="GET" action="/filter-permintaan-pengiriman" class="form-inline justify-content-center mt-3">
+            <div class="form-group">
+                <select class="form-control" id="sku" name="sku">
+                    <div th:each = "barang: ${listBarang}">
+                        <option th:value="${barang.sku}" th:text="${barang.merk}"></option>
+                    </div>
+                </select>
+                <p></p>
+            </div>
+            <div class="form-group">
+                <label for="start-date">Start Date:</label>
+                <input type="date" class="form-control" id="start-date" name="start-date">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="end-date">End Date:</label>
+                <input type="date" class="form-control" id="end-date" name="end-date">
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary my-2 my-sm-0">Cari</button>
+            </div>
+          </form>
+            <table class="table" id="tablePermintaanPengiriman">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Waktu Permintaan</th>
+                        <th>Nomor Pengiriman</th>
+                        <th>Nama Penerima</th>
+                        <th>Alamat Penerima</th>
+                        <th>Tanggal Pengiriman</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="permintaan, iterationStat : ${filteredPermintaan}">
+                        <td th:text="${iterationStat.index + 1}"></td>
+                        <td th:text="${permintaan.waktuPermintaan}"></td>
+                        <td th:text="${permintaan.nomorPengiriman}"></td>
+                        <td th:text="${permintaan.namaPenerima}"></td>
+                        <td th:text="${permintaan.alamatPenerima}"></td>
+                        <td th:text="${permintaan.tanggalPengiriman}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+  </div>
+</body>
+</html>

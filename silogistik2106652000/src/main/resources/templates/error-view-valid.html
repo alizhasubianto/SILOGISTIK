@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>"
+  <title>Add Barang</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div th:if="${merkError}" class="alert alert-danger">
+          <p th:text="${merkError}"></p>
+        </div>
+        <div th:if="${tipeBarangError}" class="alert alert-danger">
+          <p th:text="${tahunTerbitError}"></p>
+        </div>
+        <div th:if="${hargaBarangError}" class="alert alert-danger">
+          <p th:text="${hargaError}"></p>
+        </div>
+        <div class="text-center m-3">
+          <a type="button" class="btn btn-md btn-primary" href="/">Home</a>
+          <a type="button" class="btn btn-md btn-primary" href="/barang/">Lihat Semua Barang</a>
+          <a type="button" class="btn btn-md btn-primary" href="/barang/tambah">Kembali</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> -->
+  <title>Gudang</title>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+  <div class="container">
+    <div class="text-center pt-5">
+      <h2>Daftar Gudang</h2>
+    </div>
+    <table class="table" id="tableGudang">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nama</th>
+          <th>Alamat Gudang</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr th:each="gudang, iterationStatus: ${listGudang}">
+        <td th:text="${iterationStatus.count}"></td>
+        <td>
+          <h6 th:text="${gudang.nama}" class="card-title"></h6>
+        </td>
+        <td>
+          <h6 th:text="${gudang.alamatGudang}"></h6>
+        </td>
+        <td>
+          <a type="button" class="btn btn-md btn-primary" th:href="@{/gudang/{id}(id=${gudang.id})}">Detail</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $('#tableGudang').DataTable({
+        "paging": true,
+        "lengthMenu": [ 5, 10, 20 ],
+        "columnDefs": [
+        { targets: [3], sortable: false },
+      ]
+    });
+    });
+  </script>
+</body>
+
+</html>

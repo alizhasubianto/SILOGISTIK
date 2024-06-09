@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Buat Permintaan Pengiriman</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+  <div class="container">
+    <div class="row">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="justify-content-center">
+          <h2><b>Buat Permintaan Pengiriman</b></h2>
+          <br>
+
+          <form th:action="@{/permintaan-pengiriman/tambah}" method="POST" th:object="${permintaanPengirimanDTO}">
+            Karyawan: <br>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <select class="form-control" th:field="*{karyawan.id}">
+                          <div th:each="karyawan: ${listKaryawan}">
+                            <option th:value="${karyawan.id}" th:text="${karyawan.nama}"></option>
+                          </div>
+                        </select>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="col">
+                Nama Penerima: <br>
+                <input required class="form-control" type="text" th:field="*{namaPenerima}" />
+                <br>
+            </div>
+
+            <div class="col">
+                Tanggal Pengiriman: <br>
+                <input required class="form-control" type="date" th:field="*{tanggalPengiriman}" />
+                <br>
+            </div>
+
+            Jenis Layanan: <br>
+            <select class="form-control" aria-placeholder="Pilih Jenis Layanan" th:field="*{jenisLayanan}">
+              <option value="1">Same Day</option>
+              <option value="2">Kilat</option>
+              <option value="3">Reguler</option>
+              <option value="4">Hemat</option>
+            </select>
+            <br>
+
+            <div class="col">
+                Alamat Penerima: <br>
+                <input required class="form-control" type="text" th:field="*{alamatPenerima}" />
+                <br>
+            </div>
+
+            <div class="col">
+                Biaya Pengiriman: <br>
+                <input required class="form-control" type="text" th:field="*{biayaPengiriman}" />
+                <br>
+            </div>
+
+            <div colspan="2" class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit" name="addRow">+ Tambah Barang</button>
+            </div>
+            <!-- <input type="hidden" th:field="${permintaanPengirimanDTO.id}" />
+            <input type="hidden" th:field="${permintaanPengirimanDTO.namaPenerima}" />
+            <input type="hidden" th:field="${permintaanPengirimanDTO.tanggalPengiriman}" />
+            <input type="hidden" th:field="${permintaanPengirimanDTO.jenisLayanan}" />
+            <input type="hidden" th:field="${permintaanPengirimanDTO.alamatPenerima}" />
+            <input type="hidden" th:field="${permintaanPengirimanDTO.biayaPengiriman}" /> -->
+            
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Barang</th>
+                    <th>Kuantitas</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="permintaanPengirimanBarang, iterationStatus: *{listPermintaanPengirimanBarang}">
+                    <td th:text="${iterationStatus.index + 1}"></td>
+                    <td>
+                        <select class="form-control" th:field="*{listPermintaanPengirimanBarang[__${iterationStatus.index}__].Barang.sku}">
+                            <div th:each="barang: ${listBarang}">
+                                <option th:value="${barang.sku}" th:text="${barang.merk}"></option>
+                            </div>
+                        </select>
+                    </td>
+                        <td>
+                            <input required class="form-control" type="number" name="jumlah" th:field="*{listPermintaanPengirimanBarang[__${iterationStatus.index}__].kuantitasPesanan}" th:value="0" />
+    
+                            <!-- <input type="hidden"
+                                        th:field="*{listPermintaanPengirimanBarang[__${iterationStatus.index}__].id}"
+                                        />
+                                        <input type="hidden"
+                                        th:field="*{listGudangBarang[__${iterationStatus.index}__].permintaanPengiriman}"
+                                        /> -->
+                            <!-- <input required class="form-control" type="number" th:field="*{barang.stok}" /> -->
+                        </td>
+                    </tr>
+                        <!-- <td>
+                            <button class="btn btn-danger" type="submit" name="deleteRow">Hapus</button> -->
+                            <!-- <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit" name="deleteRow">Hapus</button> -->
+                        <!-- </td> -->
+                </tbody>
+              </table>
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <a class="btn btn-primary" href="/">Home</a>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</body>
+</html>
